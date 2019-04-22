@@ -1,6 +1,7 @@
 import java.util.Date;
 import java.util.List;
 import org.hl7.fhir.r4.model.Address;
+import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.ContactPoint;
 import org.hl7.fhir.r4.model.ContactPoint.ContactPointSystem;
 import org.hl7.fhir.r4.model.ContactPoint.ContactPointUse;
@@ -29,6 +30,7 @@ public class Hl7ToFhirTest {
         final Patient patient = hl7ToFhir.mapHl7toFhir();
         Assert.assertNotNull(patient);
         Assert.assertNotNull(patient.getIdentifierFirstRep());
+        Assert.assertEquals(1, patient.getIdentifier().size());
         Assert.assertNotNull(patient.getName());
         Assert.assertNotNull(patient.getTelecomFirstRep());
         Assert.assertNotNull(patient.getGender());
@@ -100,9 +102,19 @@ public class Hl7ToFhirTest {
         Assert.assertEquals(1, addressList.size());
         Assert.assertEquals("London", addressList.get(0).getCity());
         Assert.assertEquals("1", addressList.get(0).getPostalCode());
+        //Not ignoring case on purpose.
         Assert.assertEquals("The answer to life The Universe and everything 42",
                             addressList.get(0).getLine().get(0).getValueNotNull());
         Assert.assertEquals("England", addressList.get(0).getCountry());
+    }
+
+    @Test
+    public void setMaritalStatus() {
+        final CodeableConcept maritalStatus = hl7ToFhir.getMaritalStatus();
+        Assert.assertEquals(1, maritalStatus.getCoding().size());
+        Assert.assertEquals("Single", maritalStatus.getCodingFirstRep().getCode());
+        //Not ignoring case on purpose.
+        Assert.assertEquals("hl7v2ToFhir", maritalStatus.getCodingFirstRep().getSystem());
     }
 
     private ContactPoint getContactPoint(final List<ContactPoint> contactPointList,

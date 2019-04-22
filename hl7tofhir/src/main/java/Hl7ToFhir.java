@@ -33,6 +33,16 @@ public class Hl7ToFhir {
      * IN2||||||||||||||||||||||||||||""|MMD
      */
 
+    /**
+     * Additional information:
+     * When you can't read system property from message use "hl7v2ToFhir" as system.
+     * When adding address, add whole street address into single Line (eg. Cesta na ključ 33, would go to one Line)
+     * When adding Email Telecom set "Use" field to MOBILE (read FHIR documentation why)
+     * When adding Marital Status set "code" as "Single"
+     *
+     */
+
+
     public Patient mapHl7toFhir() {
         final Patient patient = new Patient();
         patient.addIdentifier(getIdentifier());
@@ -92,6 +102,6 @@ public class Hl7ToFhir {
     }
 
     public CodeableConcept getMaritalStatus() {
-        return new CodeableConcept().addCoding(new Coding().setSystem("maritalStatus").setCode("Single"));
+        return new CodeableConcept().addCoding(new Coding().setSystem("hl7v2ToFhir").setCode("Single"));
     }
 }
