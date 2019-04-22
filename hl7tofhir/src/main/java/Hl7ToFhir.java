@@ -15,7 +15,7 @@ import org.hl7.fhir.r4.model.Patient;
 public class Hl7ToFhir {
 
     /**
-     * Transform PID part of hl7v2 message below to FHIR Patient (R4) resource.
+     * Map PID part of hl7v2 message below to FHIR Patient (R4) resource.
      */
 
     /**
@@ -43,6 +43,10 @@ public class Hl7ToFhir {
      */
 
 
+    /**
+     * Map PID part of hl7v2 message below to FHIR Patient (R4) resource.
+     * @return FHIR R4 Patient
+     */
     public Patient mapHl7toFhir() {
         final Patient patient = new Patient();
         patient.addIdentifier(getIdentifier());
